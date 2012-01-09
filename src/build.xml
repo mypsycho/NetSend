@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="NetSend3" default="all" basedir=".." >
+	
+	<property name="src" location="${basedir}/src"/>
+	<property name="build" location="${basedir}/build"/>
+	<property name="product" location="${basedir}/product"/>
+
+	<property name="psychoLib" location="${basedir}/../PsychoLib"/>
+	<property name="psychoLib.src" location="${psychoLib}/src/main/java"/>
+	<property name="psychoLib.build" location="${psychoLib}/target/classes"/>
+
+
+	<target name="all" depends="clean, product" />
+	
+
+	<target name="javac" description="Build classes and resources" unless="eclipse.running">
+	    <mkdir dir="${build}" />
+	    <mkdir dir="${psychoLib.build}" />
+
+		<javac destdir="${psychoLib.build}" >
+		    <src path="${psychoLib.src}" />
+		</javac>
+		<copy todir="${psychoLib.build}"> <!-- Copy resources  -->
+			<fileset dir="${psychoLib.src}" >
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<javac destdir="${build}" >
+		    <src path="${src}" />
+		</javac>
+		<copy todir="${build}"> <!-- Copy resources  -->
+			<fileset dir="${src}" excludes="**/*.java" />
+		</copy>
+	</target>
+
+	<target name="rmic" >
+		<echo>${build}</echo>
+		<rmic base="${build}" classpath="${build}" 
+			classname="com.psycho.netsend.NetReceiver" />
+	</target>
+
+	<target name="product" description="Build final application" depends="javac, rmic">
+
+		<mkdir dir="${product}"/>
+		
+		<jar destfile="${product}/netsend.jar" >
+			<fileset dir="${psychoLib.build}" />
+			<fileset dir="${build}" />
+
+			<manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+				<attribute name="Main-Class" value="com.psycho.netsend.NetSend"/>
+				<attribute name="Class-Path" value="lang/"/>
+			</manifest>
+		</jar>
+			
+		<copy file="${psychoLib.src}/com/psycho/studio/text/Language.properties" 
+			tofile="${product}/lang/com/psycho/studio/text/Language_Template.properties" />
+		<copy file="${src}/com/psycho/netsend/text/Language.properties" 
+			tofile="${product}/lang/com/psycho/netsend/text/Language_Template.properties" />
+		<copy file="${src}/com/psycho/netsend/image/NetSend.ico" 
+			tofile="${product}/NetSend.ico" />
+			
+	</target>
+
+	<target name="test" description="Prepare for test" depends="product">
+		<copy file="${basedir}/test/NetSend.test.xml" tofile="${product}/NetSend.xml" />		
+	</target>
+	
+
+	<target name="clean" depends="clean-classes, clean-product" />
+
+	<target name="clean-classes" unless="eclipse" >
+		<delete dir="${build}"/>
+	</target>
+
+	<target name="clean-product" > <!-- For eclipse clean -->
+		<delete dir="${product}"/>
+	</target>
+
+
+</project>

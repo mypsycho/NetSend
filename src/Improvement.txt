@@ -1,0 +1,7 @@
+Choses à faire :
+
+- Faire une editeur pour la liste
+
+- Faire une aide HTML
+
+- Régler le problème du son

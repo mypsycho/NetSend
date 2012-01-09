@@ -1,0 +1,14 @@
+<!ELEMENT NetSend (Key|List)+>
+ <!ATTLIST NetSend port CDATA "0">
+ <!ATTLIST NetSend name CDATA "">
+ <!ATTLIST NetSend expanded (all|true|false) "true">
+
+    <!ELEMENT List (Key|List)+>
+     <!ATTLIST List name CDATA #REQUIRED>
+     <!ATTLIST List expanded (true|false) "false">
+
+    <!ELEMENT Key EMPTY>
+     <!ATTLIST Key name CDATA #REQUIRED>
+     <!ATTLIST Key machine CDATA #REQUIRED>
+     <!ATTLIST Key port CDATA "0">
+

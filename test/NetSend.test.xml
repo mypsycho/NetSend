@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!DOCTYPE NetSend SYSTEM "NetSend.dtd">
+<!-- DO NOT CHANGE DTD REFERENCE -->
+
+<NetSend name="test" expanded="false" > <!-- port="2024" expanded="all" -->
+
+        <Key name="test 1" machine="localhost" port="5001" />
+        <Key name="test 2" machine="localhost" port="6001" />
+
+        <Key name="N1" machine="m1"/>
+        <Key name="N2" machine="m2"/>
+
+        <List name="A" expanded="true" >
+            <Key name="A1" machine="m1"/>
+            <Key name="A2" machine="m2"/>
+        </List>
+        <List name="B">
+            <Key name="B1" machine="m1"/>
+            <Key name="B2" machine="m2"/>
+            <List name="BA"  >
+                <Key name="BA1" machine="m1"/>
+                <Key name="BA2" machine="m2"/>
+            </List>
+        </List>
+
+        <List name="L1">
+            <Key name="N3" machine="m3"/>
+            <Key name="N4" machine="m4"/>
+            <Key name="N5" machine="m5"/>
+        </List>
+
+</NetSend>
